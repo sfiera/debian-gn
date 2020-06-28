@@ -1,0 +1,85 @@
+---
+kind: pipeline
+type: docker
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: uname
+  image: alpine:3.12
+  commands:
+  - uname -a
+
+- name: dist
+  image: python:3.8-alpine
+  commands:
+  - scripts/download-dist
+  depends_on:
+  - uname
+
+- name: focal
+  image: arescentral/deb:focal
+  settings:
+    dir: focal
+  depends_on:
+  - dist
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    files:
+    - "*.deb"
+    - "*.dsc"
+  when:
+    event: tag
+  depends_on:
+  - focal
+
+---
+kind: pipeline
+type: docker
+name: arm
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+- name: uname
+  image: alpine:3.12
+  commands:
+  - uname -a
+
+- name: dist
+  image: python:3.8-alpine
+  commands:
+  - scripts/download-dist
+  depends_on:
+  - uname
+
+- name: buster
+  image: arescentral/deb:buster
+  settings:
+    dir: buster
+  depends_on:
+  - dist
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    files:
+    - "*.deb"
+    - "*.dsc"
+  when:
+    event: tag
+  depends_on:
+  - buster
+
+...

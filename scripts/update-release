@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+
+import os
+import json
+import subprocess
+import urllib.request
+
+GN_REPO = "sfiera/gn"
+
+DISTRIBUTIONS = [
+    ("buster", "debian10"),
+    ("focal", "ubuntu20.04"),
+]
+
+
+def main():
+    url = "https://api.github.com/repos/%s/releases/latest" % GN_REPO
+    with urllib.request.urlopen(url) as f:
+        release = json.load(f)
+    with open("release.json", "w") as f:
+        json.dump(release, f, indent=2)
+    print("Downloaded release.json (%s)" % release["tag_name"])
+
+    tag_name = release["tag_name"]
+    for distribution, suffix in DISTRIBUTIONS:
+        old_version = changelog_version(distribution)
+        if tag_name == old_version.split("-")[0]:
+            print("  %s: already %s" % (distribution, old_version))
+            continue
+        new_version = "%s-1~%s" % (tag_name, suffix)
+        update_changelog(distribution, new_version, release["body"])
+        print("  %s: %s => %s" % (distribution, old_version, new_version))
+
+
+def changelog_version(distribution):
+    return subprocess.check_output([
+        "dpkg-parsechangelog",
+        "-l",
+        "%s/changelog" % distribution,
+        "-S",
+        "Version",
+    ]).strip().decode("utf-8")
+
+
+def update_changelog(distribution, version, text):
+    subprocess.check_call([
+        "dch",
+        "--newversion=%s" % version,
+        "--changelog=%s/changelog" % distribution,
+        "--distribution=%s" % distribution,
+        "--force-distribution",
+        text,
+    ])
+
+
+if __name__ == "__main__":
+    main()

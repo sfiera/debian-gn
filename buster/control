@@ -1,0 +1,25 @@
+Source: gn
+Section: devel
+Priority: optional
+Maintainer: Chris Pickel <sfiera@twotaled.com>
+Build-Depends:
+ ca-certificates,
+ clang,
+ debhelper (>=9),
+ git,
+ ninja-build,
+ python3
+Standards-Version: 4.5.0
+Homepage: https://gn.googlesource.com/gn
+Vcs-Git: https://gn.googlesource.com/gn
+Vcs-Browser: https://gn.googlesource.com/gn
+
+Package: gn
+Architecture: amd64
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends}
+Recommends: ninja-build
+Description: meta-build system that generates Ninja build files
+ gn turns a high-level build description and turns it into a low-level
+ description that Ninja can execute.
