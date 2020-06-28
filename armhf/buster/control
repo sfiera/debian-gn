@@ -15,7 +15,7 @@ Vcs-Git: https://gn.googlesource.com/gn
 Vcs-Browser: https://gn.googlesource.com/gn
 
 Package: gn
-Architecture: amd64
+Architecture: armhf
 Depends:
  ${shlibs:Depends},
  ${misc:Depends}
