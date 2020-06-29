@@ -23,7 +23,7 @@ steps:
 - name: focal
   image: arescentral/deb:focal
   settings:
-    dir: amd64/focal
+    dir: focal
   depends_on:
   - dist
 
@@ -65,7 +65,7 @@ steps:
 - name: buster
   image: arescentral/deb:buster
   settings:
-    dir: armhf/buster
+    dir: buster
   depends_on:
   - dist
 

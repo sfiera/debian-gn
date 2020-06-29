@@ -8,8 +8,8 @@ import urllib.request
 GN_REPO = "sfiera/gn"
 
 DISTRIBUTIONS = [
-    ("buster", "debian10", ["armhf"]),
-    ("focal", "ubuntu20.04", ["amd64"]),
+    ("buster", "debian10"),
+    ("focal", "ubuntu20.04"),
 ]
 
 
@@ -22,16 +22,15 @@ def main():
     print("Downloaded release.json (%s)" % release["tag_name"])
 
     tag_name = release["tag_name"]
-    for distribution, suffix, arches in DISTRIBUTIONS:
-        for arch in arches:
-            changelog = os.path.join(arch, distribution, "changelog")
-            old_version = changelog_version(changelog)
-            if tag_name == old_version.split("-")[0]:
-                print("  %s: already %s" % (distribution, old_version))
-                continue
-            new_version = "%s-1~%s" % (tag_name, suffix)
-            update_changelog(changelog, distribution, new_version, release["body"])
-            print("  %s: %s => %s" % (distribution, old_version, new_version))
+    for distribution, suffix in DISTRIBUTIONS:
+        changelog = os.path.join(distribution, "changelog")
+        old_version = changelog_version(changelog)
+        if tag_name == old_version.split("-")[0]:
+            print("  %s: already %s" % (distribution, old_version))
+            continue
+        new_version = "%s-1~%s" % (tag_name, suffix)
+        update_changelog(changelog, distribution, new_version, release["body"])
+        print("  %s: %s => %s" % (distribution, old_version, new_version))
 
 
 def changelog_version(changelog):
