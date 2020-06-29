@@ -9,7 +9,7 @@ platform:
 
 steps:
 - name: uname
-  image: alpine:3.12
+  image: ubuntu:trusty
   commands:
   - uname -a
 
@@ -17,15 +17,15 @@ steps:
   image: python:3.8-alpine
   commands:
   - scripts/download-dist
-  depends_on:
-  - uname
 
-- name: focal
-  image: arescentral/deb:focal
-  settings:
-    dir: focal
-  depends_on:
-  - dist
+- name: deb
+  image: arescentral/deb
+
+- name: check
+  image: ubuntu:trusty
+  commands:
+  - dpkg -i gn_*.deb
+  - gn --version
 
 - name: publish
   image: plugins/github-release
@@ -36,9 +36,8 @@ steps:
     - "*.deb"
     - "*.dsc"
   when:
-    event: tag
-  depends_on:
-  - focal
+    event:
+    - tag
 
 ---
 kind: pipeline
@@ -51,7 +50,7 @@ platform:
 
 steps:
 - name: uname
-  image: alpine:3.12
+  image: debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b
   commands:
   - uname -a
 
@@ -59,15 +58,15 @@ steps:
   image: python:3.8-alpine
   commands:
   - scripts/download-dist
-  depends_on:
-  - uname
 
-- name: buster
-  image: arescentral/deb:buster
-  settings:
-    dir: buster
-  depends_on:
-  - dist
+- name: deb
+  image: arescentral/deb
+
+- name: check
+  image: debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b
+  commands:
+  - dpkg -i gn_*.deb
+  - gn --version
 
 - name: publish
   image: plugins/github-release
@@ -78,8 +77,48 @@ steps:
     - "*.deb"
     - "*.dsc"
   when:
-    event: tag
-  depends_on:
-  - buster
+    event:
+    - tag
+
+---
+kind: pipeline
+type: docker
+name: arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+- name: uname
+  image: debian:stretch-slim
+  commands:
+  - uname -a
+
+- name: dist
+  image: python:3.8-alpine
+  commands:
+  - scripts/download-dist
+
+- name: deb
+  image: arescentral/deb
+
+- name: check
+  image: debian:stretch-slim
+  commands:
+  - dpkg -i gn_*.deb
+  - gn --version
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    files:
+    - "*.deb"
+    - "*.dsc"
+  when:
+    event:
+    - tag
 
 ...
