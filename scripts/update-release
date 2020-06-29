@@ -8,8 +8,8 @@ import urllib.request
 GN_REPO = "sfiera/gn"
 
 DISTRIBUTIONS = [
-    ("buster", "debian10"),
-    ("focal", "ubuntu20.04"),
+    ("buster", "debian10", ["armhf"]),
+    ("focal", "ubuntu20.04", ["amd64"]),
 ]
 
 
@@ -22,31 +22,33 @@ def main():
     print("Downloaded release.json (%s)" % release["tag_name"])
 
     tag_name = release["tag_name"]
-    for distribution, suffix in DISTRIBUTIONS:
-        old_version = changelog_version(distribution)
-        if tag_name == old_version.split("-")[0]:
-            print("  %s: already %s" % (distribution, old_version))
-            continue
-        new_version = "%s-1~%s" % (tag_name, suffix)
-        update_changelog(distribution, new_version, release["body"])
-        print("  %s: %s => %s" % (distribution, old_version, new_version))
+    for distribution, suffix, arches in DISTRIBUTIONS:
+        for arch in arches:
+            changelog = os.path.join(arch, distribution, "changelog")
+            old_version = changelog_version(changelog)
+            if tag_name == old_version.split("-")[0]:
+                print("  %s: already %s" % (distribution, old_version))
+                continue
+            new_version = "%s-1~%s" % (tag_name, suffix)
+            update_changelog(changelog, distribution, new_version, release["body"])
+            print("  %s: %s => %s" % (distribution, old_version, new_version))
 
 
-def changelog_version(distribution):
+def changelog_version(changelog):
     return subprocess.check_output([
         "dpkg-parsechangelog",
         "-l",
-        "%s/changelog" % distribution,
+        changelog,
         "-S",
         "Version",
     ]).strip().decode("utf-8")
 
 
-def update_changelog(distribution, version, text):
+def update_changelog(changelog, distribution, version, text):
     subprocess.check_call([
         "dch",
         "--newversion=%s" % version,
-        "--changelog=%s/changelog" % distribution,
+        "--changelog=%s" % changelog,
         "--distribution=%s" % distribution,
         "--force-distribution",
         text,
