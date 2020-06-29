@@ -42,8 +42,8 @@ local testImage = {
     settings: {
       api_key: { from_secret: 'github_token' },
       files: [
-        '*.deb',
-        '*.dsc',
+        'gn_*.deb',
+        'gn_*.dsc',
       ],
     },
     when: { event: 'tag' },
