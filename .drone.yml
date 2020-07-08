@@ -1,30 +1,35 @@
 ---
 kind: pipeline
 type: docker
-name: amd64
+name: debian/amd64
 
 platform:
   os: linux
   arch: amd64
 
 steps:
-- name: uname
-  image: ubuntu:trusty
+- name: deb/buster
+  image: arescentral/deb:buster
+  settings:
+    dir: buster
+
+- name: check/buster
+  image: debian:buster-slim
   commands:
   - uname -a
+  - dpkg -i gn_*buster_amd64.deb
+  - gn --version
 
-- name: dist
-  image: python:3.8-alpine
+- name: deb/stretch
+  image: arescentral/deb:stretch
+  settings:
+    dir: stretch
+
+- name: check/stretch
+  image: debian:stretch-slim
   commands:
-  - scripts/download-dist
-
-- name: deb
-  image: arescentral/deb
-
-- name: check
-  image: ubuntu:trusty
-  commands:
-  - dpkg -i gn_*.deb
+  - uname -a
+  - dpkg -i gn_*stretch_amd64.deb
   - gn --version
 
 - name: publish
@@ -32,9 +37,10 @@ steps:
   settings:
     api_key:
       from_secret: github_token
+    file_exists: skip
     files:
-    - "*.deb"
-    - "*.dsc"
+    - gn_*.deb
+    - gn_*.dsc
   when:
     event:
     - tag
@@ -42,71 +48,35 @@ steps:
 ---
 kind: pipeline
 type: docker
-name: arm
-
-platform:
-  os: linux
-  arch: arm
-
-steps:
-- name: uname
-  image: debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b
-  commands:
-  - uname -a
-
-- name: dist
-  image: python:3.8-alpine
-  commands:
-  - scripts/download-dist
-
-- name: deb
-  image: arescentral/deb
-
-- name: check
-  image: debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b
-  commands:
-  - dpkg -i gn_*.deb
-  - gn --version
-
-- name: publish
-  image: plugins/github-release
-  settings:
-    api_key:
-      from_secret: github_token
-    files:
-    - "*.deb"
-    - "*.dsc"
-  when:
-    event:
-    - tag
-
----
-kind: pipeline
-type: docker
-name: arm64
+name: debian/arm64
 
 platform:
   os: linux
   arch: arm64
 
 steps:
-- name: uname
+- name: deb/buster
+  image: arescentral/deb:buster
+  settings:
+    dir: buster
+
+- name: check/buster
+  image: debian:buster-slim
+  commands:
+  - uname -a
+  - dpkg -i gn_*buster_arm64.deb
+  - gn --version
+
+- name: deb/stretch
+  image: arescentral/deb:stretch
+  settings:
+    dir: stretch
+
+- name: check/stretch
   image: debian:stretch-slim
   commands:
   - uname -a
-
-- name: dist
-  image: python:3.8-alpine
-  commands:
-  - scripts/download-dist
-
-- name: deb
-  image: arescentral/deb
-
-- name: check
-  image: debian:stretch-slim
-  commands:
-  - dpkg -i gn_*.deb
+  - dpkg -i gn_*stretch_arm64.deb
   - gn --version
 
 - name: publish
@@ -114,9 +84,116 @@ steps:
   settings:
     api_key:
       from_secret: github_token
+    file_exists: skip
     files:
-    - "*.deb"
-    - "*.dsc"
+    - gn_*.deb
+    - gn_*.dsc
+  when:
+    event:
+    - tag
+
+---
+kind: pipeline
+type: docker
+name: debian/arm
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+- name: deb/buster
+  image: arescentral/deb:buster
+  settings:
+    dir: buster
+
+- name: check/buster
+  image: debian@sha256:43e8691b4e25f4b0fd0f10bca8ea11b9f0578b0e5d2fe3b085290455dd07c0b6
+  commands:
+  - uname -a
+  - dpkg -i gn_*buster_arm.deb
+  - gn --version
+
+- name: deb/stretch
+  image: arescentral/deb:stretch
+  settings:
+    dir: stretch
+
+- name: check/stretch
+  image: debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b
+  commands:
+  - uname -a
+  - dpkg -i gn_*stretch_arm.deb
+  - gn --version
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    file_exists: skip
+    files:
+    - gn_*.deb
+    - gn_*.dsc
+  when:
+    event:
+    - tag
+
+---
+kind: pipeline
+type: docker
+name: ubuntu/amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: deb/focal
+  image: arescentral/deb:focal
+  settings:
+    dir: focal
+
+- name: check/focal
+  image: ubuntu:focal
+  commands:
+  - uname -a
+  - dpkg -i gn_*focal_amd64.deb
+  - gn --version
+
+- name: deb/bionic
+  image: arescentral/deb:bionic
+  settings:
+    dir: bionic
+
+- name: check/bionic
+  image: ubuntu:bionic
+  commands:
+  - uname -a
+  - dpkg -i gn_*bionic_amd64.deb
+  - gn --version
+
+- name: deb/xenial
+  image: arescentral/deb:xenial
+  settings:
+    dir: xenial
+
+- name: check/xenial
+  image: ubuntu:xenial
+  commands:
+  - uname -a
+  - dpkg -i gn_*xenial_amd64.deb
+  - gn --version
+
+- name: publish
+  image: plugins/github-release
+  settings:
+    api_key:
+      from_secret: github_token
+    file_exists: skip
+    files:
+    - gn_*.deb
+    - gn_*.dsc
   when:
     event:
     - tag

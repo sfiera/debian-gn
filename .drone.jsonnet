@@ -1,51 +1,80 @@
-local arches = ['amd64', 'arm', 'arm64'];
+// pin specific hashes; default would pull armv5/armel image.
+local stretch20200607armv7 =
+  'debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b';
+local buster20200607armv7 =
+  'debian@sha256:43e8691b4e25f4b0fd0f10bca8ea11b9f0578b0e5d2fe3b085290455dd07c0b6';
 
-local testImage = {
-  amd64: 'ubuntu:trusty',
-  arm64: 'debian:stretch-slim',
+local configs = [{
+  distro: 'debian',
+  arch: 'amd64',
+  versions: [
+    { codename: 'buster', testImage: 'debian:buster-slim' },
+    { codename: 'stretch', testImage: 'debian:stretch-slim' },
+  ],
+}, {
+  distro: 'debian',
+  arch: 'arm64',
+  versions: [
+    { codename: 'buster', testImage: 'debian:buster-slim' },
+    { codename: 'stretch', testImage: 'debian:stretch-slim' },
+  ],
+}, {
+  distro: 'debian',
+  arch: 'arm',
+  versions: [
+    { codename: 'buster', testImage: buster20200607armv7 },
+    { codename: 'stretch', testImage: stretch20200607armv7 },
+  ],
+}, {
+  distro: 'ubuntu',
+  arch: 'amd64',
+  versions: [
+    { codename: 'focal', testImage: 'ubuntu:focal' },
+    { codename: 'bionic', testImage: 'ubuntu:bionic' },
+    { codename: 'xenial', testImage: 'ubuntu:xenial' },
+  ],
+}];
 
-  // debian:stretch-slim armv7; default would pull armv5/armel image.
-  arm: 'debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b',
-};
+[
+  {
+    local distro = config.distro,
+    local arch = config.arch,
+    local versions = config.versions,
 
-[{
-  kind: 'pipeline',
-  type: 'docker',
-  name: arch,
+    kind: 'pipeline',
+    type: 'docker',
+    name: '%s/%s' % [distro, arch],
 
-  platform: {
-    os: 'linux',
-    arch: arch,
-  },
-
-  steps: [{
-    name: 'uname',
-    image: testImage[arch],
-    commands: ['uname -a'],
-  }, {
-    name: 'dist',
-    image: 'python:3.8-alpine',
-    commands: ['scripts/download-dist'],
-  }, {
-    name: 'deb',
-    image: 'arescentral/deb',
-  }, {
-    name: 'check',
-    image: testImage[arch],
-    commands: [
-      'dpkg -i gn_*.deb',
-      'gn --version',
-    ],
-  }, {
-    name: 'publish',
-    image: 'plugins/github-release',
-    settings: {
-      api_key: { from_secret: 'github_token' },
-      files: [
-        'gn_*.deb',
-        'gn_*.dsc',
-      ],
+    platform: {
+      os: 'linux',
+      arch: arch,
     },
-    when: { event: 'tag' },
-  }],
-} for arch in arches]
+
+    steps: std.flattenArrays([[{
+      name: 'deb/%s' % version.codename,
+      image: 'arescentral/deb:%s' % version.codename,
+      settings: { dir: version.codename },
+    }, {
+      name: 'check/%s' % version.codename,
+      image: version.testImage,
+      commands: [
+        'uname -a',
+        'dpkg -i gn_*%s_%s.deb' % [version.codename, arch],
+        'gn --version',
+      ],
+    }] for version in versions]) + [{
+      name: 'publish',
+      image: 'plugins/github-release',
+      settings: {
+        api_key: { from_secret: 'github_token' },
+        files: [
+          'gn_*.deb',
+          'gn_*.dsc',
+        ],
+        file_exists: 'skip',  // dsc is same for different arch
+      },
+      when: { event: 'tag' },
+    }],
+  }
+  for config in configs
+]

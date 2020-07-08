@@ -1,0 +1,11 @@
+gn (0.0.1792-2~16.04xenial) xenial; urgency=medium
+
+  * Split into per-distro/version images
+
+ -- Chris Pickel <sfiera@twotaled.com>  Wed, 08 Jul 2020 03:42:03 +0000
+
+gn (0.0.1792-1) stable; urgency=medium
+
+  * Initial release on GitHub
+
+ -- Chris Pickel <sfiera@twotaled.com>  Sun, 28 Jun 2020 04:01:23 +0000
