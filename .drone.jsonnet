@@ -59,7 +59,7 @@ local configs = [{
       image: version.testOn,
       commands: [
         'uname -a',
-        'dpkg -i gn_*%s_%s.deb' % [version.codename, arch],
+        'dpkg -i gn_*%s_*.deb' % [version.codename],
         'gn --version',
       ],
     }] for version in versions]) + [{

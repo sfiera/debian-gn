@@ -17,7 +17,7 @@ steps:
   image: debian:buster-slim
   commands:
   - uname -a
-  - dpkg -i gn_*buster_amd64.deb
+  - dpkg -i gn_*buster_*.deb
   - gn --version
 
 - name: deb/stretch
@@ -29,7 +29,7 @@ steps:
   image: debian:stretch-slim
   commands:
   - uname -a
-  - dpkg -i gn_*stretch_amd64.deb
+  - dpkg -i gn_*stretch_*.deb
   - gn --version
 
 - name: publish
@@ -64,7 +64,7 @@ steps:
   image: debian:buster-slim
   commands:
   - uname -a
-  - dpkg -i gn_*buster_arm64.deb
+  - dpkg -i gn_*buster_*.deb
   - gn --version
 
 - name: deb/stretch
@@ -76,7 +76,7 @@ steps:
   image: debian:stretch-slim
   commands:
   - uname -a
-  - dpkg -i gn_*stretch_arm64.deb
+  - dpkg -i gn_*stretch_*.deb
   - gn --version
 
 - name: publish
@@ -111,7 +111,7 @@ steps:
   image: debian@sha256:43e8691b4e25f4b0fd0f10bca8ea11b9f0578b0e5d2fe3b085290455dd07c0b6
   commands:
   - uname -a
-  - dpkg -i gn_*buster_arm.deb
+  - dpkg -i gn_*buster_*.deb
   - gn --version
 
 - name: deb/stretch
@@ -123,7 +123,7 @@ steps:
   image: debian@sha256:6aac188bc15bac908192685068ef8512a2e51b5eb1138b663e9e33d1d98ade4b
   commands:
   - uname -a
-  - dpkg -i gn_*stretch_arm.deb
+  - dpkg -i gn_*stretch_*.deb
   - gn --version
 
 - name: publish
@@ -158,7 +158,7 @@ steps:
   image: ubuntu:focal
   commands:
   - uname -a
-  - dpkg -i gn_*focal_amd64.deb
+  - dpkg -i gn_*focal_*.deb
   - gn --version
 
 - name: deb/bionic
@@ -170,7 +170,7 @@ steps:
   image: ubuntu:bionic
   commands:
   - uname -a
-  - dpkg -i gn_*bionic_amd64.deb
+  - dpkg -i gn_*bionic_*.deb
   - gn --version
 
 - name: deb/xenial
@@ -182,7 +182,7 @@ steps:
   image: ubuntu:xenial
   commands:
   - uname -a
-  - dpkg -i gn_*xenial_amd64.deb
+  - dpkg -i gn_*xenial_*.deb
   - gn --version
 
 - name: publish
