@@ -8,30 +8,30 @@ local configs = [{
   distro: 'debian',
   arch: 'amd64',
   versions: [
-    { codename: 'buster', testImage: 'debian:buster-slim' },
-    { codename: 'stretch', testImage: 'debian:stretch-slim' },
+    { codename: 'buster', buildOn: 'buster', testOn: 'debian:buster-slim' },
+    { codename: 'stretch', buildOn: 'buster', testOn: 'debian:stretch-slim' },
   ],
 }, {
   distro: 'debian',
   arch: 'arm64',
   versions: [
-    { codename: 'buster', testImage: 'debian:buster-slim' },
-    { codename: 'stretch', testImage: 'debian:stretch-slim' },
+    { codename: 'buster', buildOn: 'buster', testOn: 'debian:buster-slim' },
+    { codename: 'stretch', buildOn: 'buster', testOn: 'debian:stretch-slim' },
   ],
 }, {
   distro: 'debian',
   arch: 'arm',
   versions: [
-    { codename: 'buster', testImage: buster20200607armv7 },
-    { codename: 'stretch', testImage: stretch20200607armv7 },
+    { codename: 'buster', buildOn: 'buster', testOn: buster20200607armv7 },
+    { codename: 'stretch', buildOn: 'buster', testOn: stretch20200607armv7 },
   ],
 }, {
   distro: 'ubuntu',
   arch: 'amd64',
   versions: [
-    { codename: 'focal', testImage: 'ubuntu:focal' },
-    { codename: 'bionic', testImage: 'ubuntu:bionic' },
-    { codename: 'xenial', testImage: 'ubuntu:xenial' },
+    { codename: 'focal', buildOn: 'focal', testOn: 'ubuntu:focal' },
+    { codename: 'bionic', buildOn: 'focal', testOn: 'ubuntu:bionic' },
+    { codename: 'xenial', buildOn: 'focal', testOn: 'ubuntu:xenial' },
   ],
 }];
 
@@ -52,11 +52,11 @@ local configs = [{
 
     steps: std.flattenArrays([[{
       name: 'deb/%s' % version.codename,
-      image: 'arescentral/deb:%s' % version.codename,
+      image: 'arescentral/deb:%s' % version.buildOn,
       settings: { dir: version.codename },
     }, {
       name: 'check/%s' % version.codename,
-      image: version.testImage,
+      image: version.testOn,
       commands: [
         'uname -a',
         'dpkg -i gn_*%s_%s.deb' % [version.codename, arch],

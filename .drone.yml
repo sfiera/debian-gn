@@ -21,7 +21,7 @@ steps:
   - gn --version
 
 - name: deb/stretch
-  image: arescentral/deb:stretch
+  image: arescentral/deb:buster
   settings:
     dir: stretch
 
@@ -68,7 +68,7 @@ steps:
   - gn --version
 
 - name: deb/stretch
-  image: arescentral/deb:stretch
+  image: arescentral/deb:buster
   settings:
     dir: stretch
 
@@ -115,7 +115,7 @@ steps:
   - gn --version
 
 - name: deb/stretch
-  image: arescentral/deb:stretch
+  image: arescentral/deb:buster
   settings:
     dir: stretch
 
@@ -162,7 +162,7 @@ steps:
   - gn --version
 
 - name: deb/bionic
-  image: arescentral/deb:bionic
+  image: arescentral/deb:focal
   settings:
     dir: bionic
 
@@ -174,7 +174,7 @@ steps:
   - gn --version
 
 - name: deb/xenial
-  image: arescentral/deb:xenial
+  image: arescentral/deb:focal
   settings:
     dir: xenial
 
