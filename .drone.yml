@@ -162,7 +162,7 @@ steps:
   - gn --version
 
 - name: deb/bionic
-  image: arescentral/deb:focal
+  image: arescentral/deb:bionic
   settings:
     dir: bionic
 
@@ -174,7 +174,7 @@ steps:
   - gn --version
 
 - name: deb/xenial
-  image: arescentral/deb:focal
+  image: arescentral/deb:bionic
   settings:
     dir: xenial
 

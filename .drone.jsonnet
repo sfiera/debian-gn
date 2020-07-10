@@ -30,8 +30,8 @@ local configs = [{
   arch: 'amd64',
   versions: [
     { codename: 'focal', buildOn: 'focal', testOn: 'ubuntu:focal' },
-    { codename: 'bionic', buildOn: 'focal', testOn: 'ubuntu:bionic' },
-    { codename: 'xenial', buildOn: 'focal', testOn: 'ubuntu:xenial' },
+    { codename: 'bionic', buildOn: 'bionic', testOn: 'ubuntu:bionic' },
+    { codename: 'xenial', buildOn: 'bionic', testOn: 'ubuntu:xenial' },
   ],
 }];
 
