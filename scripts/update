@@ -1,0 +1,89 @@
+#!/usr/bin/env python3
+
+import collections
+import datetime
+import json
+import os
+import shutil
+import subprocess
+import urllib.request
+
+user = collections.namedtuple("user", ["name", "email"])
+distro = collections.namedtuple("distro", ["name", "version"])
+
+GN_REPO = "sfiera/gn"
+USER = user("Chris Pickel", "sfiera@twotaled.com")
+DISTROS = [
+    distro("buster", "10buster"),
+    distro("stretch", "9stretch"),
+    distro("focal", "20.04focal"),
+    distro("bionic", "18.04bionic"),
+    distro("xenial", "16.04xenial"),
+]
+
+
+def main():
+    url = "https://api.github.com/repos/%s/releases/latest" % GN_REPO
+    with urllib.request.urlopen(url) as f:
+        release = json.load(f)
+    with open("release.json", "w") as f:
+        json.dump(release, f, indent=2)
+    print("Downloaded release.json (%s)" % release["tag_name"])
+
+    tag_name = release["tag_name"]
+    old_version = changelog_version()
+    if tag_name == old_version:
+        print("Already %s" % old_version)
+        return
+    print("Updating %s => %s" % (old_version, tag_name))
+
+    now = datetime.datetime.now(datetime.timezone.utc)
+    for distro in DISTROS:
+        update_changelog(distro, release, now)
+        print("Updated %s/changelog" % distro.name)
+
+    path = download(release)
+    print("Downloaded %s" % path)
+
+
+def changelog_version():
+    with open(os.path.join(DISTROS[0].name, "changelog")) as f:
+        first_line = f.readline()
+    version = first_line.split(" ")[1]
+    return version.strip("()").split("-")[0]
+
+
+def download(release):
+    try:
+        shutil.rmtree("dist")
+    except FileNotFoundError:
+        pass
+    os.mkdir("dist")
+
+    asset, = release["assets"]
+    path = os.path.join("dist", asset["name"])
+    with urllib.request.urlopen(asset["browser_download_url"]) as src:
+        with open(path, "wb") as dst:
+            shutil.copyfileobj(src, dst)
+    return path
+
+
+def update_changelog(distro, release, now):
+    with open(os.path.join(distro.name, "changelog")) as f:
+        old_changelog = f.read()
+
+    indent = lambda s, i: s.replace("\n", "\n" + i)
+    new_changelog = f"""gn ({release["name"]}-1~{distro.version}) {distro.name}; urgency=medium
+
+  {indent(release["body"], "  ")}
+
+ -- {USER.name} <{USER.email}>  {now:%a, %d %b %Y %H:%M:%S %z}
+
+{old_changelog}"""
+
+    with open(os.path.join(distro.name, "changelog"), "w") as f:
+        f.write(new_changelog)
+
+
+if __name__ == "__main__":
+    main()

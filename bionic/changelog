@@ -1,3 +1,21 @@
+gn (0.0.1805-1~18.04bionic) bionic; urgency=medium
+
+  * Also apply no_check_target filtering to gn gen --check.
+  * [xcode] Wrap ninja invocation for Xcode New Build System
+  * On arm64 hosts, set host_cpu to 'arm64', not 'arm'.
+  * Fix two -Wrange-loop-analysis warnings.
+  * Fix no_check_targets logic and add a unit test.
+  * Fix generated_file walk_keys example.
+  * Add no_check_targets config option.
+  * [rust] Fix `gn desc` for rust targets
+  * [xcode] Allow user to choose Xcode build system
+  * Make analyze handle targets from all toolchains
+  * Check that required tool property "command" is defined
+  * docs: Fix typo in analyze docstring
+  * Check that toolchain is passed exactly one argument
+
+ -- Chris Pickel <sfiera@twotaled.com>  Sat, 18 Jul 2020 10:14:57 +0000
+
 gn (0.0.1792-2~18.04bionic) bionic; urgency=medium
 
   * Split into per-distro/version images

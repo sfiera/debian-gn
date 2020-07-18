@@ -1,13 +1,13 @@
 {
-  "url": "https://api.github.com/repos/sfiera/gn/releases/27985884",
-  "assets_url": "https://api.github.com/repos/sfiera/gn/releases/27985884/assets",
-  "upload_url": "https://uploads.github.com/repos/sfiera/gn/releases/27985884/assets{?name,label}",
-  "html_url": "https://github.com/sfiera/gn/releases/tag/0.0.1792",
-  "id": 27985884,
-  "node_id": "MDc6UmVsZWFzZTI3OTg1ODg0",
-  "tag_name": "0.0.1792",
-  "target_commitish": "7d7e8deea36d126397bda2cf924682504271f0e1",
-  "name": "0.0.1792",
+  "url": "https://api.github.com/repos/sfiera/gn/releases/28698399",
+  "assets_url": "https://api.github.com/repos/sfiera/gn/releases/28698399/assets",
+  "upload_url": "https://uploads.github.com/repos/sfiera/gn/releases/28698399/assets{?name,label}",
+  "html_url": "https://github.com/sfiera/gn/releases/tag/0.0.1805",
+  "id": 28698399,
+  "node_id": "MDc6UmVsZWFzZTI4Njk4Mzk5",
+  "tag_name": "0.0.1805",
+  "target_commitish": "d585128cdaf3e6ff7bfd58641965e60c12618eb1",
+  "name": "0.0.1805",
   "draft": false,
   "author": {
     "login": "sfiera",
@@ -30,14 +30,14 @@
     "site_admin": false
   },
   "prerelease": false,
-  "created_at": "2020-06-18T15:34:02Z",
-  "published_at": "2020-06-27T12:39:31Z",
+  "created_at": "2020-07-06T17:30:26Z",
+  "published_at": "2020-07-18T08:40:08Z",
   "assets": [
     {
-      "url": "https://api.github.com/repos/sfiera/gn/releases/assets/22146417",
-      "id": 22146417,
-      "node_id": "MDEyOlJlbGVhc2VBc3NldDIyMTQ2NDE3",
-      "name": "gn-0.0.1792.tar.gz",
+      "url": "https://api.github.com/repos/sfiera/gn/releases/assets/23002348",
+      "id": 23002348,
+      "node_id": "MDEyOlJlbGVhc2VBc3NldDIzMDAyMzQ4",
+      "name": "gn-0.0.1805.tar.gz",
       "label": "",
       "uploader": {
         "login": "sfiera",
@@ -61,14 +61,14 @@
       },
       "content_type": "application/x-gzip",
       "state": "uploaded",
-      "size": 1031804,
-      "download_count": 8,
-      "created_at": "2020-06-27T12:39:28Z",
-      "updated_at": "2020-06-27T12:39:29Z",
-      "browser_download_url": "https://github.com/sfiera/gn/releases/download/0.0.1792/gn-0.0.1792.tar.gz"
+      "size": 1034479,
+      "download_count": 3,
+      "created_at": "2020-07-18T08:40:06Z",
+      "updated_at": "2020-07-18T08:40:07Z",
+      "browser_download_url": "https://github.com/sfiera/gn/releases/download/0.0.1805/gn-0.0.1805.tar.gz"
     }
   ],
-  "tarball_url": "https://api.github.com/repos/sfiera/gn/tarball/0.0.1792",
-  "zipball_url": "https://api.github.com/repos/sfiera/gn/zipball/0.0.1792",
-  "body": "Initial release on GitHub"
+  "tarball_url": "https://api.github.com/repos/sfiera/gn/tarball/0.0.1805",
+  "zipball_url": "https://api.github.com/repos/sfiera/gn/zipball/0.0.1805",
+  "body": "* Also apply no_check_target filtering to gn gen --check.\n* [xcode] Wrap ninja invocation for Xcode New Build System\n* On arm64 hosts, set host_cpu to 'arm64', not 'arm'.\n* Fix two -Wrange-loop-analysis warnings.\n* Fix no_check_targets logic and add a unit test.\n* Fix generated_file walk_keys example.\n* Add no_check_targets config option.\n* [rust] Fix `gn desc` for rust targets\n* [xcode] Allow user to choose Xcode build system\n* Make analyze handle targets from all toolchains\n* Check that required tool property \"command\" is defined\n* docs: Fix typo in analyze docstring\n* Check that toolchain is passed exactly one argument"
 }
