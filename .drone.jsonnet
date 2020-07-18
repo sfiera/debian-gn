@@ -35,46 +35,61 @@ local configs = [{
   ],
 }];
 
-[
-  {
-    local distro = config.distro,
-    local arch = config.arch,
-    local versions = config.versions,
+local checks = {
+  kind: 'pipeline',
+  type: 'docker',
+  name: 'checks',
+  steps: [{
+    name: 'jsonnet',
+    image: 'bitnami/jsonnet:0.16.0',
+    commands: [
+      'jsonnetfmt .drone.jsonnet | diff -u .drone.jsonnet -',
+      'jsonnet -y .drone.jsonnet | diff -u .drone.yml -',
+    ],
+  }],
+};
 
-    kind: 'pipeline',
-    type: 'docker',
-    name: '%s/%s' % [distro, arch],
+local deb(version) = [{
+  name: 'deb/%s' % version.codename,
+  image: 'arescentral/deb:%s' % version.buildOn,
+  settings: { dir: version.codename },
+}, {
+  name: 'check/%s' % version.codename,
+  image: version.testOn,
+  commands: [
+    'uname -a',
+    'dpkg -i gn_*%s_*.deb' % [version.codename],
+    'gn --version',
+  ],
+}];
 
-    platform: {
-      os: 'linux',
-      arch: arch,
-    },
+local publish = {
+  name: 'publish',
+  image: 'plugins/github-release',
+  settings: {
+    api_key: { from_secret: 'github_token' },
+    files: ['gn_*.deb', 'gn_*.dsc'],
+    file_exists: 'skip',  // dsc is same for different arch
+  },
+  when: { event: 'tag' },
+};
 
-    steps: std.flattenArrays([[{
-      name: 'deb/%s' % version.codename,
-      image: 'arescentral/deb:%s' % version.buildOn,
-      settings: { dir: version.codename },
-    }, {
-      name: 'check/%s' % version.codename,
-      image: version.testOn,
-      commands: [
-        'uname -a',
-        'dpkg -i gn_*%s_*.deb' % [version.codename],
-        'gn --version',
-      ],
-    }] for version in versions]) + [{
-      name: 'publish',
-      image: 'plugins/github-release',
-      settings: {
-        api_key: { from_secret: 'github_token' },
-        files: [
-          'gn_*.deb',
-          'gn_*.dsc',
-        ],
-        file_exists: 'skip',  // dsc is same for different arch
-      },
-      when: { event: 'tag' },
-    }],
-  }
-  for config in configs
-]
+local debs(config) = {
+  local distro = config.distro,
+  local arch = config.arch,
+  local versions = config.versions,
+
+  kind: 'pipeline',
+  type: 'docker',
+  name: '%s/%s' % [distro, arch],
+  depends_on: [checks.name],
+
+  platform: {
+    os: 'linux',
+    arch: arch,
+  },
+
+  steps: std.flattenArrays([deb(version) for version in versions]) + [publish],
+};
+
+[checks] + [debs(config) for config in configs]
