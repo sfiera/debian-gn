@@ -27,7 +27,7 @@
    },
    "steps": [
       {
-         "image": "arescentral/deb:buster",
+         "image": "arescentral/deb-buster",
          "name": "deb/buster",
          "settings": {
             "dir": "buster"
@@ -43,7 +43,7 @@
          "name": "check/buster"
       },
       {
-         "image": "arescentral/deb:buster",
+         "image": "arescentral/deb-buster",
          "name": "deb/stretch",
          "settings": {
             "dir": "stretch"
@@ -91,7 +91,7 @@
    },
    "steps": [
       {
-         "image": "arescentral/deb:buster",
+         "image": "arescentral/deb-buster",
          "name": "deb/buster",
          "settings": {
             "dir": "buster"
@@ -107,7 +107,7 @@
          "name": "check/buster"
       },
       {
-         "image": "arescentral/deb:buster",
+         "image": "arescentral/deb-buster",
          "name": "deb/stretch",
          "settings": {
             "dir": "stretch"
@@ -155,7 +155,7 @@
    },
    "steps": [
       {
-         "image": "arescentral/deb:buster",
+         "image": "arescentral/deb-buster",
          "name": "deb/buster",
          "settings": {
             "dir": "buster"
@@ -171,7 +171,7 @@
          "name": "check/buster"
       },
       {
-         "image": "arescentral/deb:buster",
+         "image": "arescentral/deb-buster",
          "name": "deb/stretch",
          "settings": {
             "dir": "stretch"
@@ -219,7 +219,7 @@
    },
    "steps": [
       {
-         "image": "arescentral/deb:focal",
+         "image": "arescentral/deb-focal",
          "name": "deb/focal",
          "settings": {
             "dir": "focal"
@@ -235,7 +235,7 @@
          "name": "check/focal"
       },
       {
-         "image": "arescentral/deb:bionic",
+         "image": "arescentral/deb-bionic",
          "name": "deb/bionic",
          "settings": {
             "dir": "bionic"
@@ -251,7 +251,7 @@
          "name": "check/bionic"
       },
       {
-         "image": "arescentral/deb:bionic",
+         "image": "arescentral/deb-bionic",
          "name": "deb/xenial",
          "settings": {
             "dir": "xenial"

@@ -51,7 +51,7 @@ local checks = {
 
 local deb(version) = [{
   name: 'deb/%s' % version.codename,
-  image: 'arescentral/deb:%s' % version.buildOn,
+  image: 'arescentral/deb-%s' % version.buildOn,
   settings: { dir: version.codename },
 }, {
   name: 'check/%s' % version.codename,
