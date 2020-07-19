@@ -63,13 +63,13 @@ local deb(version) = [{
   ],
 }];
 
-local publish = {
+local publish(arch) = {
   name: 'publish',
   image: 'plugins/github-release',
   settings: {
     api_key: { from_secret: 'github_token' },
-    files: ['gn_*.deb', 'gn_*.dsc'],
-    file_exists: 'skip',  // dsc is same for different arch
+    files: ['gn_*.deb'] +
+           if arch == 'amd64' then ['gn_*.dsc'] else [],
   },
   when: { event: 'tag' },
 };
@@ -89,7 +89,7 @@ local debs(config) = {
     arch: arch,
   },
 
-  steps: std.flattenArrays([deb(version) for version in versions]) + [publish],
+  steps: std.flattenArrays([deb(version) for version in versions]) + [publish(arch)],
 };
 
 [checks] + [debs(config) for config in configs]

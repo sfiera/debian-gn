@@ -65,7 +65,6 @@
             "api_key": {
                "from_secret": "github_token"
             },
-            "file_exists": "skip",
             "files": [
                "gn_*.deb",
                "gn_*.dsc"
@@ -129,10 +128,8 @@
             "api_key": {
                "from_secret": "github_token"
             },
-            "file_exists": "skip",
             "files": [
-               "gn_*.deb",
-               "gn_*.dsc"
+               "gn_*.deb"
             ]
          },
          "when": {
@@ -193,10 +190,8 @@
             "api_key": {
                "from_secret": "github_token"
             },
-            "file_exists": "skip",
             "files": [
-               "gn_*.deb",
-               "gn_*.dsc"
+               "gn_*.deb"
             ]
          },
          "when": {
@@ -273,7 +268,6 @@
             "api_key": {
                "from_secret": "github_token"
             },
-            "file_exists": "skip",
             "files": [
                "gn_*.deb",
                "gn_*.dsc"
