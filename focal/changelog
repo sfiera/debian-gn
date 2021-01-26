@@ -1,3 +1,29 @@
+gn (0.0.1880-1~20.04focal) focal; urgency=medium
+
+  * Roll recipe_engine to latest version.
+  * Write toochains info to json project info
+  * Rewriting python search logic
+  * Find python/python3 from dotfile entries
+  * Replace relative_target_gen_dir with target_gen_dir in docs
+  * Add clean_stale command
+  * Fix crash in invalid scope subscript access
+  * Restat build.ninja after gen
+  * Clarify usage of target_name list in --export-compile-commands
+  * [infra] Simplify infra/recipes/gn.py
+  * gn recipe: Link GN with rpmalloc to speed it up.
+  * Build GN for mac-arm64
+  * [rust] Fix command arguments for non-rust native dependencies.
+  * Support `format --read-tree=json`
+  * Display toolchain name in dependency cycle error message.
+  * Put gn generator rule to console pool
+  * docs: Fix some stray quote chars in help strings.
+  * [iOS/macOS] consider bundle_data as data-like dependency
+  * Fix typo "currend" to "current"
+  * Arch detection: select ppc64 arch on os400 operating system.
+  * Always link dependencies into Rust static libraries
+
+ -- Chris Pickel <sfiera@twotaled.com>  Tue, 26 Jan 2021 02:36:48 +0000
+
 gn (0.0.1805-1~20.04focal) focal; urgency=medium
 
   * Also apply no_check_target filtering to gn gen --check.
