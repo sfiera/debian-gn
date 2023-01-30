@@ -5,7 +5,6 @@ import datetime
 import json
 import os
 import shutil
-import subprocess
 import urllib.request
 
 user = collections.namedtuple("user", ["name", "email"])
@@ -14,8 +13,10 @@ distro = collections.namedtuple("distro", ["name", "version"])
 GN_REPO = "sfiera/gn"
 USER = user("Chris Pickel", "sfiera@twotaled.com")
 DISTROS = [
+    distro("bullseye", "11bullseye"),
     distro("buster", "10buster"),
     distro("stretch", "9stretch"),
+    distro("jammy", "22.04jammy"),
     distro("focal", "20.04focal"),
     distro("bionic", "18.04bionic"),
     distro("xenial", "16.04xenial"),
@@ -72,7 +73,8 @@ def update_changelog(distro, release, now):
     with open(os.path.join(distro.name, "changelog")) as f:
         old_changelog = f.read()
 
-    indent = lambda s, i: s.replace("\n", "\n" + i)
+    def indent(s, i):
+        s.replace("\n", "\n" + i)
     new_changelog = f"""gn ({release["name"]}-1~{distro.version}) {distro.name}; urgency=medium
 
   {indent(release["body"], "  ")}
