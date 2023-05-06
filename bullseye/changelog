@@ -1,10 +1,10 @@
-gn (0.0.2092-1~9stretch) stretch; urgency=medium
+gn (0.0.2092-1~11bullseye) bullseye; urgency=medium
 
   None
 
  -- Chris Pickel <sfiera@twotaled.com>  Sat, 06 May 2023 00:53:21 +0000
 
-gn (0.0.1880-1~9stretch) stretch; urgency=medium
+gn (0.0.1880-1~11bullseye) buster; urgency=medium
 
   * Roll recipe_engine to latest version.
   * Write toochains info to json project info
@@ -30,7 +30,7 @@ gn (0.0.1880-1~9stretch) stretch; urgency=medium
 
  -- Chris Pickel <sfiera@twotaled.com>  Tue, 26 Jan 2021 02:36:48 +0000
 
-gn (0.0.1805-1~9stretch) stretch; urgency=medium
+gn (0.0.1805-1~11bullseye) buster; urgency=medium
 
   * Also apply no_check_target filtering to gn gen --check.
   * [xcode] Wrap ninja invocation for Xcode New Build System
@@ -48,7 +48,7 @@ gn (0.0.1805-1~9stretch) stretch; urgency=medium
 
  -- Chris Pickel <sfiera@twotaled.com>  Sat, 18 Jul 2020 10:14:57 +0000
 
-gn (0.0.1792-2~9stretch) stretch; urgency=medium
+gn (0.0.1792-2~11bullseye) buster; urgency=medium
 
   * Split into per-distro/version images
 
