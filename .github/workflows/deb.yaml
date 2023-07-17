@@ -19,7 +19,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -51,7 +51,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -83,7 +83,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -114,7 +114,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -146,7 +146,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -178,7 +178,7 @@ jobs:
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
