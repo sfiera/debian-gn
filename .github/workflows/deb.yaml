@@ -1,0 +1,196 @@
+on:
+  pull_request:
+  push:
+    branches: [main]
+    tags: ["*"]
+
+jobs:
+  bookworm:
+    runs-on: ubuntu-latest
+    env: {DIST_NAME: bookworm, DIST_VERSION: 12}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sed --in-place= \
+            -e "s/%DIST_NAME%/$DIST_NAME/g" \
+            -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
+            debian/changelog
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arescentral/deb:${{ env.DIST_NAME }}
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && deb-drone
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: |
+            gn_*.deb
+            gn_*.dsc
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            gn_*.deb
+            gn_*.dsc
+
+  bullseye:
+    needs: bookworm
+    runs-on: ubuntu-latest
+    env: {DIST_NAME: bullseye, DIST_VERSION: 11}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sed --in-place= \
+            -e "s/%DIST_NAME%/$DIST_NAME/g" \
+            -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
+            debian/changelog
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arescentral/deb:${{ env.DIST_NAME }}
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && deb-drone
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: |
+            gn_*.deb
+            gn_*.dsc
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            gn_*.deb
+            gn_*.dsc
+
+  buster:
+    needs: bullseye
+    runs-on: ubuntu-latest
+    env: {DIST_NAME: buster, DIST_VERSION: 10}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sed --in-place= \
+            -e "s/%DIST_NAME%/$DIST_NAME/g" \
+            -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
+            debian/changelog
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arescentral/deb:${{ env.DIST_NAME }}
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && deb-drone
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: |
+            gn_*.deb
+            gn_*.dsc
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            gn_*.deb
+            gn_*.dsc
+
+  jammy:
+    runs-on: ubuntu-latest
+    env: {DIST_NAME: jammy, DIST_VERSION: 22.04}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sed --in-place= \
+            -e "s/%DIST_NAME%/$DIST_NAME/g" \
+            -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
+            debian/changelog
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arescentral/deb:${{ env.DIST_NAME }}
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && deb-drone
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: |
+            gn_*.deb
+            gn_*.dsc
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            gn_*.deb
+            gn_*.dsc
+
+  focal:
+    needs: jammy
+    runs-on: ubuntu-latest
+    env: {DIST_NAME: focal, DIST_VERSION: 20.04}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sed --in-place= \
+            -e "s/%DIST_NAME%/$DIST_NAME/g" \
+            -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
+            debian/changelog
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arescentral/deb:${{ env.DIST_NAME }}
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && deb-drone
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: |
+            gn_*.deb
+            gn_*.dsc
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            gn_*.deb
+            gn_*.dsc
+
+  bionic:
+    needs: focal
+    runs-on: ubuntu-latest
+    env: {DIST_NAME: bionic, DIST_VERSION: 18.04}
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          sed --in-place= \
+            -e "s/%DIST_NAME%/$DIST_NAME/g" \
+            -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
+            debian/changelog
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: arescentral/deb:${{ env.DIST_NAME }}
+          options: -v ${{ github.workspace }}:/work
+          run: cd /work && deb-drone
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ env.DIST_NAME }}
+          path: |
+            gn_*.deb
+            gn_*.dsc
+
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            gn_*.deb
+            gn_*.dsc

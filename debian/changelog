@@ -1,4 +1,4 @@
-gn (0.0.1880-1~18.04bionic) bionic; urgency=medium
+gn (0.0.1880-1~%DIST_VERSION%%DIST_NAME%) %DIST_NAME%; urgency=medium
 
   * Roll recipe_engine to latest version.
   * Write toochains info to json project info
@@ -24,7 +24,7 @@ gn (0.0.1880-1~18.04bionic) bionic; urgency=medium
 
  -- Chris Pickel <sfiera@twotaled.com>  Tue, 26 Jan 2021 02:36:48 +0000
 
-gn (0.0.1805-1~18.04bionic) bionic; urgency=medium
+gn (0.0.1805-1~%DIST_VERSION%%DIST_NAME%) %DIST_NAME%; urgency=medium
 
   * Also apply no_check_target filtering to gn gen --check.
   * [xcode] Wrap ninja invocation for Xcode New Build System
@@ -42,7 +42,7 @@ gn (0.0.1805-1~18.04bionic) bionic; urgency=medium
 
  -- Chris Pickel <sfiera@twotaled.com>  Sat, 18 Jul 2020 10:14:57 +0000
 
-gn (0.0.1792-2~18.04bionic) bionic; urgency=medium
+gn (0.0.1792-2~%DIST_VERSION%%DIST_NAME%) %DIST_NAME%; urgency=medium
 
   * Split into per-distro/version images
 
