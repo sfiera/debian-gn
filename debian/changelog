@@ -1,3 +1,9 @@
+gn (0.0.2113-1~%DIST_VERSION%%DIST_NAME%) %DIST_NAME%; urgency=medium
+
+  * Remove obsolete comment
+
+ -- Chris Pickel <sfiera@twotaled.com>  Tue, 17 Jul 2023 13:19:18 +0000
+
 gn (0.0.1880-1~%DIST_VERSION%%DIST_NAME%) %DIST_NAME%; urgency=medium
 
   * Roll recipe_engine to latest version.
