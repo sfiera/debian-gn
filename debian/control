@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Chris Pickel <sfiera@twotaled.com>
 Build-Depends:
  ca-certificates,
- clang,
+ %CC%,
  debhelper (>=9),
  git,
  ninja-build,

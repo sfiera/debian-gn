@@ -7,7 +7,7 @@ on:
 jobs:
   bookworm:
     runs-on: ubuntu-latest
-    env: {DIST_NAME: bookworm, DIST_VERSION: 12}
+    env: {DIST_NAME: bookworm, DIST_VERSION: 12, CC: clang, CXX: clang++}
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -15,11 +15,12 @@ jobs:
             -e "s/%DIST_NAME%/$DIST_NAME/g" \
             -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
             debian/changelog
+          sed --in-place= "s/%CC%/$CC/g" debian/control
 
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto -e CXX=${{ env.CXX }}
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -39,7 +40,7 @@ jobs:
   bullseye:
     needs: bookworm
     runs-on: ubuntu-latest
-    env: {DIST_NAME: bullseye, DIST_VERSION: 11}
+    env: {DIST_NAME: bullseye, DIST_VERSION: 11, CC: clang, CXX: clang++}
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -47,11 +48,12 @@ jobs:
             -e "s/%DIST_NAME%/$DIST_NAME/g" \
             -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
             debian/changelog
+          sed --in-place= "s/%CC%/$CC/g" debian/control
 
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto -e CXX=${{ env.CXX }}
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -71,7 +73,7 @@ jobs:
   buster:
     needs: bullseye
     runs-on: ubuntu-latest
-    env: {DIST_NAME: buster, DIST_VERSION: 10}
+    env: {DIST_NAME: buster, DIST_VERSION: 10, CC: clang-7, CXX: clang++-7}
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -79,11 +81,12 @@ jobs:
             -e "s/%DIST_NAME%/$DIST_NAME/g" \
             -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
             debian/changelog
+          sed --in-place= "s/%CC%/$CC/g" debian/control
 
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto -e CXX=${{ env.CXX }}
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -102,7 +105,7 @@ jobs:
 
   jammy:
     runs-on: ubuntu-latest
-    env: {DIST_NAME: jammy, DIST_VERSION: 22.04}
+    env: {DIST_NAME: jammy, DIST_VERSION: 22.04, CC: clang, CXX: clang++}
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -110,11 +113,12 @@ jobs:
             -e "s/%DIST_NAME%/$DIST_NAME/g" \
             -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
             debian/changelog
+          sed --in-place= "s/%CC%/$CC/g" debian/control
 
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto -e CXX=${{ env.CXX }}
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -134,7 +138,7 @@ jobs:
   focal:
     needs: jammy
     runs-on: ubuntu-latest
-    env: {DIST_NAME: focal, DIST_VERSION: 20.04}
+    env: {DIST_NAME: focal, DIST_VERSION: 20.04, CC: clang, CXX: clang++}
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -142,11 +146,12 @@ jobs:
             -e "s/%DIST_NAME%/$DIST_NAME/g" \
             -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
             debian/changelog
+          sed --in-place= "s/%CC%/$CC/g" debian/control
 
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto -e CXX=${{ env.CXX }}
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
@@ -166,7 +171,7 @@ jobs:
   bionic:
     needs: focal
     runs-on: ubuntu-latest
-    env: {DIST_NAME: bionic, DIST_VERSION: 18.04}
+    env: {DIST_NAME: bionic, DIST_VERSION: 18.04, CC: clang-9, CXX: clang++-9}
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -174,11 +179,12 @@ jobs:
             -e "s/%DIST_NAME%/$DIST_NAME/g" \
             -e "s/%DIST_VERSION%/$DIST_VERSION/g" \
             debian/changelog
+          sed --in-place= "s/%CC%/$CC/g" debian/control
 
       - uses: addnab/docker-run-action@v3
         with:
           image: arescentral/deb:${{ env.DIST_NAME }}
-          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto
+          options: -v ${{ github.workspace }}:/work -e DEB_BUILD_MAINT_OPTIONS=optimize=-lto -e CXX=${{ env.CXX }}
           run: cd /work && deb-drone
 
       - uses: actions/upload-artifact@v3
